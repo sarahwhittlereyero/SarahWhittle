@@ -4,131 +4,176 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sarah Whittle — CV</title>
-<meta name="description" content="Sarah Whittle — MSc Global Business and Sustainability, Rotterdam School of Management. Human Rights Intern at HEINEKEN Global.">
+<meta name="description" content="Sarah Whittle — Human Rights Intern at HEINEKEN Global. MSc Global Business and Sustainability, Rotterdam School of Management.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap" rel="stylesheet">
 <style>
+/* Layout: banner with name and downloads, quick-facts strip, then a tabbed timeline beside a side column */
 :root{
-  --navy:#183a59; --navy-line:#2f5375; --side-text:#eef3f8; --side-muted:#b9c8d7;
-  --ink:#2b2d30; --muted:#5a6068; --page:#e7ebef; --paper:#ffffff;
-  --head:'Poppins',system-ui,-apple-system,sans-serif; --body:'Lato',system-ui,-apple-system,sans-serif;
+  --bg:#f7f9fc; --surface:#ffffff; --ink:#26303d; --muted:#64707f; --line:#e3e8ef;
+  --hero:#2d5d8a; --hero-2:#3a6c9c; --on-hero:#ffffff; --accent:#2f74b5; --accent-soft:#e8f1fa;
+  --display:'Nunito',system-ui,-apple-system,sans-serif; --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
 }
+@media screen and (prefers-color-scheme:dark){:root{
+  --bg:#111821; --surface:#19232f; --ink:#e7edf4; --muted:#a0abb9; --line:#2a3644;
+  --hero:#1f4366; --hero-2:#2a5279; --accent:#86b6ea; --accent-soft:#1d2f45; color-scheme:dark}}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.5}
-a{color:inherit;text-decoration:none}
-a:hover{text-decoration:underline}
-ul{list-style:none}
+a{color:inherit}
+ul,ol{list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
 
-.sheet{max-width:900px;margin:32px auto;background:var(--paper);box-shadow:0 4px 20px rgba(24,58,89,.12);
-  display:grid;grid-template-columns:300px 1fr;grid-template-areas:"side head" "side main"}
+/* Banner */
+.hero{background:var(--hero);color:var(--on-hero);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;border:60px solid var(--hero-2);opacity:.7}
+.hero-in{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:72px 16px 96px}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,8vw,4.8rem);line-height:1.05;letter-spacing:-.01em;margin:8px 0 18px}
+.sub{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,2.4vw,1.35rem)}
+.sub2{opacity:.8;margin-top:2px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{font-family:var(--display);font-weight:700;font-size:.95rem;padding:10px 20px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.5);transition:transform .15s,background .2s}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.btn.solid{background:#fff;color:var(--hero);border-color:#fff}
+.btn.solid:hover{background:#eef4fb}
 
-/* Sidebar */
-.side{grid-area:side;background:var(--navy);color:var(--side-text);padding:56px 30px 40px}
-.side .block{margin-bottom:30px}
-.side .muted{color:var(--side-muted)}
+/* Quick facts */
+.stats{max-width:1040px;margin:-48px auto 0;padding:0 16px;position:relative;z-index:2}
+.stats-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 10px 30px rgba(45,93,138,.10)}
+.stat{padding:20px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:1.7rem;color:var(--accent);line-height:1.1}
+.stat span{font-size:.88rem;color:var(--muted)}
 
-/* Section headings: round icon + spaced caps */
-.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.sec-head h2{font-family:var(--head);font-weight:600;font-size:1.05rem;letter-spacing:.2em;text-transform:uppercase}
-.icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
-.icon svg{width:18px;height:18px}
-.side .icon{background:var(--side-text);color:var(--navy)}
-.main .icon{background:var(--navy);color:#fff}
+/* Body */
+.wrap{max-width:1040px;margin:0 auto;padding:56px 16px 72px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px}
+h2{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.about{font-size:1.08rem;margin-bottom:40px;max-width:65ch}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}
+.tab{font-family:var(--display);font-weight:700;font-size:1rem;padding:10px 16px;border:0;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.panel-title,.print-only{display:none}
+.mini{display:flex;flex-direction:column;padding:1.2mm 0;border-bottom:1px solid var(--line)}
+.mini:last-child{border:0}
+.mini b{font-family:var(--display);font-weight:800;line-height:1.25}
+.mini span{color:var(--muted)}
+.mini .mini-date{color:var(--accent);font-weight:700}
+.mini .mini-note{font-size:.92em}
 
-.contact li{display:flex;align-items:center;gap:12px;margin-bottom:8px;word-break:break-word}
-.contact svg{width:16px;height:16px;flex-shrink:0;color:var(--side-text)}
-.downloads{display:flex;gap:8px;margin-top:14px}
-.downloads a{border:1px solid var(--side-muted);border-radius:999px;padding:3px 12px;font-family:var(--head);font-size:.8rem}
-.downloads a:hover{background:var(--side-text);color:var(--navy);text-decoration:none}
-.edu{margin-bottom:14px}
-.edu-school{font-weight:700}
-.edu-degree{font-size:.93em}
-.edu-note{font-size:.85em;margin-top:2px}
-.bullets li{position:relative;padding-left:16px;margin-bottom:6px;font-family:var(--head);font-size:.88rem;font-weight:400}
-.bullets li::before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor}
-.lang-level{display:block;font-family:var(--body);font-size:.85rem;color:var(--side-muted)}
+.tl{position:relative;padding-left:28px}
+.tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.tl li{position:relative;margin-bottom:18px}
+.dot{position:absolute;left:-28px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(45,93,138,.10)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+h3{font-family:var(--display);font-weight:800;font-size:1.06rem;line-height:1.35}
+.org{color:var(--muted);font-style:italic}
+.date{font-size:.88rem;color:var(--accent);font-weight:700;margin:4px 0 6px}
+.pill{font-family:var(--display);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.pill.full{background:var(--accent);color:var(--surface)}
+.card li{position:relative;padding-left:16px;margin-bottom:5px;color:var(--muted)}
+.card li::before{content:"";position:absolute;left:2px;top:.68em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.card p{color:var(--muted)}
 
-/* Header */
-.head{grid-area:head;padding:56px 44px 8px}
-h1{font-family:var(--head);font-weight:800;font-size:2.7rem;white-space:nowrap;line-height:1.02;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
-.subtitle{font-family:var(--head);font-size:1.15rem;letter-spacing:.08em;margin-top:14px}
-.school{color:var(--muted);font-size:.95rem;margin:1px 0 6px}
-.subtitle.role{margin-top:0}
+/* Side column */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:20px}
+.box h2{font-size:.88rem;margin-bottom:10px}
+.contact a{display:block;padding:5px 0;text-decoration:none;color:var(--accent);overflow-wrap:anywhere}
+.contact a:hover{text-decoration:underline}
+.skills li{padding:8px 0;border-bottom:1px solid var(--line);font-size:.94rem;transition:padding .15s,color .15s}
+.skills li:last-child{border:0}
+.skills li:hover{padding-left:6px;color:var(--accent)}
+.lang{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lang:last-child{border:0}
+.lang-name{font-weight:700}
+.lang-level{color:var(--muted);font-size:.9rem}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px}
 
-/* Main column */
-.main{grid-area:main;padding:24px 44px 40px}
-.main section{margin-bottom:28px}
-.about{text-align:justify;hyphens:auto}
-
-.timeline{position:relative;padding-left:22px}
-.timeline::before{content:"";position:absolute;left:4px;top:8px;bottom:6px;width:1.5px;background:var(--navy)}
-.job{position:relative;margin-bottom:16px}
-.job::before{content:"";position:absolute;left:-22px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--navy)}
-.job-title{font-family:var(--head);font-weight:500;font-size:1rem;line-height:1.35}
-.job-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--head);font-size:.86rem}
-.job-org{font-style:italic}
-.job-dates{color:var(--muted);white-space:nowrap}
-.job-body{color:var(--muted);font-size:.92rem;margin-top:4px}
-.job-body li{position:relative;padding-left:14px;margin-bottom:3px}
-.job-body li::before{content:"";position:absolute;left:2px;top:.6em;width:4px;height:4px;border-radius:50%;background:var(--navy)}
-
-.lead{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.lead-org{font-family:var(--head);font-weight:600;font-size:.95rem;line-height:1.3;margin-bottom:4px}
-.lead p{color:var(--muted);font-size:.88rem}
-
-@media screen and (max-width:760px){
-  .sheet{margin:0;grid-template-columns:1fr;grid-template-areas:"head" "side" "main";box-shadow:none}
-  .head{padding:32px 16px 20px}
-  .side{padding:28px 16px 8px}
-  .main{padding:28px 16px}
-  h1{font-size:2.1rem;white-space:normal}
-  .lead{grid-template-columns:1fr}
+@media screen and (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .stats-in{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .hero-in{padding:56px 16px 88px}
 }
 
+/* One A4 page for the PDF: every tab's content shown, interactive parts hidden */
 @page{size:A4;margin:0}
 @media print{
-  html{font-size:12.4px}
-  body{background:#fff;font-size:9.3pt;line-height:1.42}
-  .bullets li{margin-bottom:3px}
-  .sheet{margin:0;max-width:none;width:210mm;min-height:297mm;box-shadow:none;grid-template-columns:72mm 1fr;
-    -webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .side{padding:11mm 8mm 8mm}
-  .head{padding:11mm 11mm 1mm}
-  .main{padding:4mm 11mm 6mm}
-  .main section{margin-bottom:4.5mm}
-  .sec-head{margin-bottom:2.5mm}
-  .icon{width:28px;height:28px}
-  .icon svg{width:15px;height:15px}
-  .job{margin-bottom:2.6mm}
-  .subtitle{margin-top:2.5mm}
-  .side .block{margin-bottom:7mm}
-  h1{font-size:28pt}
-  .job,.edu,.lead>div{break-inside:avoid}
-  .downloads{display:none}
+  html{font-size:11px}
+  body{background:#fff;font-size:9pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .hero::after,.btns,.stats,.tabs,footer{display:none}
+  .hero-in{max-width:none;padding:7mm 13mm 5mm}
+  h1{font-size:28pt;margin:1mm 0 2mm}
+  .eyebrow{font-size:7.5pt}
+  .sub{font-size:12pt}
+  .wrap{max-width:none;padding:6mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
+  .about{font-size:9.3pt;margin-bottom:3mm;max-width:none}
+  h2{font-size:9.5pt;margin-bottom:2mm}
+  #p-edu,#p-vol{display:none!important}
+  .print-only,.panel-title{display:block}
+  .box{font-size:8.3pt;line-height:1.35}
+  .tl li{margin-bottom:1.6mm}
+  .dot{top:3.2mm;width:10px;height:10px;border-width:2.5px;left:-26px}
+  .card{padding:1.6mm 3mm;border-radius:8px;box-shadow:none!important}
+  .tl::before{top:3mm;bottom:3mm}
+  h3{font-size:10pt}
+  .date{margin:0.5mm 0 1mm;font-size:8.5pt}
+  .card li{margin-bottom:.6mm}
+  .box{padding:3.4mm 4mm;margin-bottom:3.5mm;border-radius:8px}
+  .box h2{font-size:8.5pt;margin-bottom:1.5mm}
+  .contact a{padding:.5mm 0}
+  .lang{padding:.9mm 0}
+  .skills li{padding:.7mm 0}
+  .vol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+  .vol-grid .mini{border:0;padding:0;font-size:8.3pt;line-height:1.35}
+  .vol-print{margin-top:3mm}
+  .card,.box{break-inside:avoid}
 }
 </style>
 </head>
 <body>
-<div class="sheet">
-<header class="head">
-<h1>Sarah Whittle</h1>
-<div class="subtitle">MSc Global Business and Sustainability</div>
-<div class="school">Rotterdam School of Management</div>
-<div class="subtitle role">Human Rights Intern at HEINEKEN Global</div>
-</header>
-<aside class="side">
-<div class="block"><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></span><h2>Contact</h2></div><ul class="contact"><li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span><a href="tel:+34644718505">+34 644 718 505</a></span></li><li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2.4 0L12 11.2 19.6 6zM20 8.2l-8 5.4-8-5.4V18h16z"/></svg><span><a href="mailto:Sarah.whittle.reyero@gmail.com">Sarah.whittle.reyero@gmail.com</a></span></li><li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM2.2 8.5h3.6V21H2.2zM8.6 8.5h3.4v1.7c.5-.9 1.7-2 3.6-2 3.8 0 4.5 2.5 4.5 5.7V21h-3.6v-6.3c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H8.6z"/></svg><span><a href="https://www.linkedin.com/in/sarah-whittle-alvarez-4248aa29b">Sarah Whittle Alvarez</a></span></li></ul>
-<div class="downloads"><a href="Sarah-Whittle-CV.pdf">Download PDF</a><a href="Sarah-Whittle-CV.docx">Word</a></div></div>
-<div class="block"><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 1 8.5l11 5.5 9-4.5V16h2V8.5z"/><path d="M5.5 12.6V16c0 1.9 2.9 3.5 6.5 3.5s6.5-1.6 6.5-3.5v-3.4L12 15.9z"/></svg></span><h2>Education</h2></div><div class="edu"><div class="edu-school">Rotterdam School of Management (RSM), Erasmus University Rotterdam</div><div class="edu-degree">MSc Global Business and Sustainability</div><div class="muted edu-degree">2025 – expected 2027</div></div><div class="edu"><div class="edu-school">Campus Fryslân, University of Groningen</div><div class="edu-degree">BSc Global Responsibility and Leadership</div><div class="muted edu-degree">Graduated 2025</div><div class="muted edu-note">Focus on Politics, Philosophy and Economics (PPE). Exchange semester at Korea University, South Korea.</div></div></div>
-<div class="block"><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.6 6.8L12 17.3l-6.1 3.5 1.6-6.8L2.3 9.4l6.9-.6z"/></svg></span><h2>Skills</h2></div><ul class="bullets"><li>Human Rights Due Diligence &amp; Risk Management</li><li>Human Rights Legislation &amp; Regulatory Compliance</li><li>Social Sustainability &amp; Supply Chain Auditing</li><li>Global Stakeholder Engagement &amp; Cross-Functional Collaboration</li><li>Research, Data Analysis &amp; Benchmarking</li><li>Strategic Communications &amp; Employee Engagement</li><li>Diversity, Equity &amp; Inclusion (DEI)</li><li>Project Coordination &amp; Implementation</li></ul></div>
-<div class="block"><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg></span><h2>Languages</h2></div><ul class="bullets"><li>Spanish<span class="lang-level">Native</span></li><li>English<span class="lang-level">Fluent; Cambridge Certificate of Proficiency</span></li><li>French<span class="lang-level">DELF B2</span></li></ul></div>
-</aside>
-<main class="main">
-<section><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><h2>About Me</h2></div><p class="about">Currently pursuing a Master’s in Global Business and Sustainability at RSM alongside an internship at HEINEKEN Global, gaining experience in stakeholder management, research, and international collaboration. Curious, adaptable, and people-oriented, I enjoy working with diverse teams, exploring creative ideas, and taking on new challenges.</p></section>
-<section><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 4h6a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h6V6H9z"/></svg></span><h2>Experience</h2></div><div class="timeline"><div class="job"><div class="job-title">Human Rights Intern</div><div class="job-meta"><span class="job-org">HEINEKEN Global</span><span class="job-dates">Sep 2026 – Feb 2027</span></div><div class="job-body"><ul><li>Collaborating with global Operating Companies (OpCos) and senior stakeholders to strengthen human rights engagement and implementation across the organisation.</li><li>Analysing supplier sustainability audits, monitoring human rights risks and supporting remediation efforts across the global supply chain.</li><li>Researching EU human rights legislation, including the CSDDD and Forced Labour Regulation, and conducting peer benchmarking to support corporate sustainability practices.</li><li>Supporting DEI initiatives and developing internal communications, presentations and engagement projects to promote human rights awareness across global operations.</li></ul></div></div><div class="job"><div class="job-title">Senior Store Employee</div><div class="job-meta"><span class="job-org">Albert Heijn</span><span class="job-dates">Part-time · Sep 2025 – Sep 2026</span></div><div class="job-body"><p>Retail operations, teamwork and customer interaction.</p></div></div><div class="job"><div class="job-title">Community Management &amp; Events Intern</div><div class="job-meta"><span class="job-org">Echo Recordings</span><span class="job-dates">Part-time · Jul 2025 – Jan 2026</span></div><div class="job-body"><p>Community engagement, communications and event organisation.</p></div></div><div class="job"><div class="job-title">Intern</div><div class="job-meta"><span class="job-org">Global Risk Advice</span><span class="job-dates">Part-time · Mar 2024 – Jul 2024</span></div><div class="job-body"><p>Research and organisational support.</p></div></div><div class="job"><div class="job-title">Teaching Assistant</div><div class="job-meta"><span class="job-org">University of Groningen</span><span class="job-dates">Part-time · Nov 2023 – Feb 2024</span></div><div class="job-body"><p>Academic support and student engagement.</p></div></div></div></section>
-<section><div class="sec-head"><span class="icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-8.5-5.4-8.5-11.2A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 3.2C20.5 15.6 12 21 12 21z"/></svg></span><h2>Leadership & Volunteering</h2></div><div class="lead"><div><div class="lead-org">Stichting Mano</div><p>Organised a LinkedIn and CV workshop supporting the employability of individuals with migrant backgrounds.</p></div><div><div class="lead-org">Student Sports Committee</div><p>Chaired the committee, contributing to student engagement and community activities.</p></div><div><div class="lead-org">Amnesty International</div><p>Participated in student-led human rights initiatives.</p></div></div></section>
+<header class="hero"><div class="hero-in">
+  <div class="eyebrow">Curriculum Vitae</div>
+  <h1>Sarah Whittle</h1>
+  <p class="sub">Human Rights Intern at HEINEKEN Global</p>
+  <p class="sub2">MSc Global Business and Sustainability · Rotterdam School of Management</p>
+  <div class="btns"><a class="btn solid" href="Sarah-Whittle-CV.pdf">Download PDF</a><a class="btn" href="Sarah-Whittle-CV.docx">Word version</a><a class="btn" href="https://www.linkedin.com/in/sarah-whittle-alvarez-4248aa29b">LinkedIn</a></div>
+</div></header>
+<div class="stats"><div class="stats-in">
+  <div class="stat"><b>5</b><span>roles since 2023</span></div>
+  <div class="stat"><b>3</b><span>languages</span></div>
+  <div class="stat"><b>MSc</b><span>RSM, expected 2027</span></div>
+  <div class="stat"><b>3</b><span>volunteer roles</span></div>
+</div></div>
+<div class="wrap">
+<main>
+  <h2>About me</h2><p class="about">Currently pursuing a Master’s in Global Business and Sustainability at RSM alongside an internship at HEINEKEN Global, gaining experience in stakeholder management, research, and international collaboration. Curious, adaptable, and people-oriented, I enjoy working with diverse teams, exploring creative ideas, and taking on new challenges.</p>
+  <div class="tabs" role="tablist" aria-label="Background">
+    <button class="tab" role="tab" id="tab-work" aria-selected="true" aria-controls="p-work">Experience</button>
+    <button class="tab" role="tab" id="tab-edu" aria-selected="false" aria-controls="p-edu">Education</button>
+    <button class="tab" role="tab" id="tab-vol" aria-selected="false" aria-controls="p-vol">Volunteering</button>
+  </div>
+  <div role="tabpanel" id="p-work" aria-labelledby="tab-work"><h2 class="panel-title">Experience</h2><ol class="tl"><li><div class="dot"></div><div class="card"><div class="card-head"><div><h3>Human Rights Intern</h3><div class="org">HEINEKEN Global</div></div><span class="pill full">Full-time</span></div><div class="date">Sep 2026 – Feb 2027</div><ul><li>Collaborating with global Operating Companies (OpCos) and senior stakeholders to strengthen human rights engagement and implementation across the organisation.</li><li>Analysing supplier sustainability audits, monitoring human rights risks and supporting remediation efforts across the global supply chain.</li><li>Researching EU human rights legislation, including the CSDDD and Forced Labour Regulation, and conducting peer benchmarking to support corporate sustainability practices.</li><li>Supporting DEI initiatives and developing internal communications, presentations and engagement projects to promote human rights awareness across global operations.</li></ul></div></li><li><div class="dot"></div><div class="card"><div class="card-head"><div><h3>Senior Store Employee</h3><div class="org">Albert Heijn</div></div><span class="pill">Part-time</span></div><div class="date">Sep 2025 – Sep 2026</div><p>Retail operations, teamwork and customer interaction.</p></div></li><li><div class="dot"></div><div class="card"><div class="card-head"><div><h3>Community Management &amp; Events Intern</h3><div class="org">Echo Recordings</div></div><span class="pill">Part-time</span></div><div class="date">Jul 2025 – Jan 2026</div><p>Community engagement, communications and event organisation.</p></div></li><li><div class="dot"></div><div class="card"><div class="card-head"><div><h3>Intern</h3><div class="org">Global Risk Advice</div></div><span class="pill">Part-time</span></div><div class="date">Mar 2024 – Jul 2024</div><p>Research and organisational support.</p></div></li><li><div class="dot"></div><div class="card"><div class="card-head"><div><h3>Teaching Assistant</h3><div class="org">University of Groningen</div></div><span class="pill">Part-time</span></div><div class="date">Nov 2023 – Feb 2024</div><p>Academic support and student engagement.</p></div></li></ol></div>
+  <section class="print-only vol-print"><h2>Leadership &amp; Volunteering</h2><div class="vol-grid"><div class="mini"><b>Stichting Mano</b><span>Organised a LinkedIn and CV workshop supporting the employability of individuals with migrant backgrounds.</span></div><div class="mini"><b>Student Sports Committee</b><span>Chaired the committee, contributing to student engagement and community activities.</span></div><div class="mini"><b>Amnesty International</b><span>Participated in student-led human rights initiatives.</span></div></div></section>
+  <div role="tabpanel" id="p-edu" aria-labelledby="tab-edu" hidden><h2 class="panel-title">Education</h2><ol class="tl"><li><div class="dot"></div><div class="card"><h3>MSc Global Business and Sustainability</h3><div class="org">Rotterdam School of Management (RSM), Erasmus University Rotterdam</div><div class="date">2025 – expected 2027</div></div></li><li><div class="dot"></div><div class="card"><h3>BSc Global Responsibility and Leadership</h3><div class="org">Campus Fryslân, University of Groningen</div><div class="date">Graduated 2025</div><p>Focus on Politics, Philosophy and Economics (PPE). Exchange semester at Korea University, South Korea.</p></div></li></ol></div>
+  <div role="tabpanel" id="p-vol" aria-labelledby="tab-vol" hidden><h2 class="panel-title">Leadership &amp; Volunteering</h2><ol class="tl"><li><div class="dot"></div><div class="card"><h3>Stichting Mano</h3><p>Organised a LinkedIn and CV workshop supporting the employability of individuals with migrant backgrounds.</p></div></li><li><div class="dot"></div><div class="card"><h3>Student Sports Committee</h3><p>Chaired the committee, contributing to student engagement and community activities.</p></div></li><li><div class="dot"></div><div class="card"><h3>Amnesty International</h3><p>Participated in student-led human rights initiatives.</p></div></li></ol></div>
 </main>
+<aside>
+  <div class="box contact"><h2>Contact</h2><a href="mailto:Sarah.whittle.reyero@gmail.com">Sarah.whittle.reyero@gmail.com</a><a href="tel:+34644718505">+34 644 718 505</a><a href="https://www.linkedin.com/in/sarah-whittle-alvarez-4248aa29b">LinkedIn: Sarah Whittle Alvarez</a></div>
+  <div class="box"><h2>Skills</h2><ul class="skills"><li>Human Rights Due Diligence &amp; Risk Management</li><li>Human Rights Legislation &amp; Regulatory Compliance</li><li>Social Sustainability &amp; Supply Chain Auditing</li><li>Global Stakeholder Engagement &amp; Cross-Functional Collaboration</li><li>Research, Data Analysis &amp; Benchmarking</li><li>Strategic Communications &amp; Employee Engagement</li><li>Diversity, Equity &amp; Inclusion (DEI)</li><li>Project Coordination &amp; Implementation</li></ul></div>
+  <div class="box"><h2>Languages</h2><div class="lang"><div class="lang-name">Spanish</div><div class="lang-level">Native</div></div><div class="lang"><div class="lang-name">English</div><div class="lang-level">Fluent; Cambridge Certificate of Proficiency</div></div><div class="lang"><div class="lang-name">French</div><div class="lang-level">DELF B2</div></div></div>
+  <div class="box print-only"><h2>Education</h2><div class="mini"><b>MSc Global Business and Sustainability</b><span>Rotterdam School of Management (RSM), Erasmus University Rotterdam</span><span class="mini-date">2025 – expected 2027</span></div><div class="mini"><b>BSc Global Responsibility and Leadership</b><span>Campus Fryslân, University of Groningen</span><span class="mini-date">Graduated 2025</span><span class="mini-note">Focus on Politics, Philosophy and Economics (PPE). Exchange semester at Korea University, South Korea.</span></div></div>
+</aside>
 </div>
+<footer>© 2026 Sarah Whittle</footer>
+<script>
+const tabs=[...document.querySelectorAll('[role=tab]')];
+tabs.forEach(t=>t.addEventListener('click',()=>tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);document.getElementById(x.getAttribute('aria-controls')).hidden=!on;})));
+</script>
 </body>
 </html>

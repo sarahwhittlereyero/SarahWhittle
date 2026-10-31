@@ -4,6 +4,7 @@
     .venv/bin/python build.py   # writes index.html, Sarah-Whittle-CV.pdf and Sarah-Whittle-CV.docx
 """
 import json
+import re
 import subprocess
 from html import escape
 from pathlib import Path
@@ -13,195 +14,227 @@ PDF_NAME = "Sarah-Whittle-CV.pdf"
 DOCX_NAME = "Sarah-Whittle-CV.docx"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-FONTS = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
+FONTS = "https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap"
 
 CSS = """
+/* Layout: banner with name and downloads, quick-facts strip, then a tabbed timeline beside a side column */
 :root{
-  --navy:#183a59; --navy-line:#2f5375; --side-text:#eef3f8; --side-muted:#b9c8d7;
-  --ink:#2b2d30; --muted:#5a6068; --page:#e7ebef; --paper:#ffffff;
-  --head:'Poppins',system-ui,-apple-system,sans-serif; --body:'Lato',system-ui,-apple-system,sans-serif;
+  --bg:#f7f9fc; --surface:#ffffff; --ink:#26303d; --muted:#64707f; --line:#e3e8ef;
+  --hero:#2d5d8a; --hero-2:#3a6c9c; --on-hero:#ffffff; --accent:#2f74b5; --accent-soft:#e8f1fa;
+  --display:'Nunito',system-ui,-apple-system,sans-serif; --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
 }
+@media screen and (prefers-color-scheme:dark){:root{
+  --bg:#111821; --surface:#19232f; --ink:#e7edf4; --muted:#a0abb9; --line:#2a3644;
+  --hero:#1f4366; --hero-2:#2a5279; --accent:#86b6ea; --accent-soft:#1d2f45; color-scheme:dark}}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.5}
-a{color:inherit;text-decoration:none}
-a:hover{text-decoration:underline}
-ul{list-style:none}
+a{color:inherit}
+ul,ol{list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
 
-.sheet{max-width:900px;margin:32px auto;background:var(--paper);box-shadow:0 4px 20px rgba(24,58,89,.12);
-  display:grid;grid-template-columns:300px 1fr;grid-template-areas:"side head" "side main"}
+/* Banner */
+.hero{background:var(--hero);color:var(--on-hero);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;border:60px solid var(--hero-2);opacity:.7}
+.hero-in{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:72px 16px 96px}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,8vw,4.8rem);line-height:1.05;letter-spacing:-.01em;margin:8px 0 18px}
+.sub{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,2.4vw,1.35rem)}
+.sub2{opacity:.8;margin-top:2px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{font-family:var(--display);font-weight:700;font-size:.95rem;padding:10px 20px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.5);transition:transform .15s,background .2s}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.btn.solid{background:#fff;color:var(--hero);border-color:#fff}
+.btn.solid:hover{background:#eef4fb}
 
-/* Sidebar */
-.side{grid-area:side;background:var(--navy);color:var(--side-text);padding:56px 30px 40px}
-.side .block{margin-bottom:30px}
-.side .muted{color:var(--side-muted)}
+/* Quick facts */
+.stats{max-width:1040px;margin:-48px auto 0;padding:0 16px;position:relative;z-index:2}
+.stats-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 10px 30px rgba(45,93,138,.10)}
+.stat{padding:20px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:1.7rem;color:var(--accent);line-height:1.1}
+.stat span{font-size:.88rem;color:var(--muted)}
 
-/* Section headings: round icon + spaced caps */
-.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.sec-head h2{font-family:var(--head);font-weight:600;font-size:1.05rem;letter-spacing:.2em;text-transform:uppercase}
-.icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
-.icon svg{width:18px;height:18px}
-.side .icon{background:var(--side-text);color:var(--navy)}
-.main .icon{background:var(--navy);color:#fff}
+/* Body */
+.wrap{max-width:1040px;margin:0 auto;padding:56px 16px 72px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px}
+h2{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.about{font-size:1.08rem;margin-bottom:40px;max-width:65ch}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}
+.tab{font-family:var(--display);font-weight:700;font-size:1rem;padding:10px 16px;border:0;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.panel-title,.print-only{display:none}
+.mini{display:flex;flex-direction:column;padding:1.2mm 0;border-bottom:1px solid var(--line)}
+.mini:last-child{border:0}
+.mini b{font-family:var(--display);font-weight:800;line-height:1.25}
+.mini span{color:var(--muted)}
+.mini .mini-date{color:var(--accent);font-weight:700}
+.mini .mini-note{font-size:.92em}
 
-.contact li{display:flex;align-items:center;gap:12px;margin-bottom:8px;word-break:break-word}
-.contact svg{width:16px;height:16px;flex-shrink:0;color:var(--side-text)}
-.downloads{display:flex;gap:8px;margin-top:14px}
-.downloads a{border:1px solid var(--side-muted);border-radius:999px;padding:3px 12px;font-family:var(--head);font-size:.8rem}
-.downloads a:hover{background:var(--side-text);color:var(--navy);text-decoration:none}
-.edu{margin-bottom:14px}
-.edu-school{font-weight:700}
-.edu-degree{font-size:.93em}
-.edu-note{font-size:.85em;margin-top:2px}
-.bullets li{position:relative;padding-left:16px;margin-bottom:6px;font-family:var(--head);font-size:.88rem;font-weight:400}
-.bullets li::before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;background:currentColor}
-.lang-level{display:block;font-family:var(--body);font-size:.85rem;color:var(--side-muted)}
+.tl{position:relative;padding-left:28px}
+.tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.tl li{position:relative;margin-bottom:18px}
+.dot{position:absolute;left:-28px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(45,93,138,.10)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+h3{font-family:var(--display);font-weight:800;font-size:1.06rem;line-height:1.35}
+.org{color:var(--muted);font-style:italic}
+.date{font-size:.88rem;color:var(--accent);font-weight:700;margin:4px 0 6px}
+.pill{font-family:var(--display);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.pill.full{background:var(--accent);color:var(--surface)}
+.card li{position:relative;padding-left:16px;margin-bottom:5px;color:var(--muted)}
+.card li::before{content:"";position:absolute;left:2px;top:.68em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.card p{color:var(--muted)}
 
-/* Header */
-.head{grid-area:head;padding:56px 44px 8px}
-h1{font-family:var(--head);font-weight:800;font-size:2.7rem;white-space:nowrap;line-height:1.02;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
-.subtitle{font-family:var(--head);font-size:1.15rem;letter-spacing:.08em;margin-top:14px}
-.school{color:var(--muted);font-size:.95rem;margin:1px 0 6px}
-.subtitle.role{margin-top:0}
+/* Side column */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:20px}
+.box h2{font-size:.88rem;margin-bottom:10px}
+.contact a{display:block;padding:5px 0;text-decoration:none;color:var(--accent);overflow-wrap:anywhere}
+.contact a:hover{text-decoration:underline}
+.skills li{padding:8px 0;border-bottom:1px solid var(--line);font-size:.94rem;transition:padding .15s,color .15s}
+.skills li:last-child{border:0}
+.skills li:hover{padding-left:6px;color:var(--accent)}
+.lang{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lang:last-child{border:0}
+.lang-name{font-weight:700}
+.lang-level{color:var(--muted);font-size:.9rem}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px}
 
-/* Main column */
-.main{grid-area:main;padding:24px 44px 40px}
-.main section{margin-bottom:28px}
-.about{text-align:justify;hyphens:auto}
-
-.timeline{position:relative;padding-left:22px}
-.timeline::before{content:"";position:absolute;left:4px;top:8px;bottom:6px;width:1.5px;background:var(--navy)}
-.job{position:relative;margin-bottom:16px}
-.job::before{content:"";position:absolute;left:-22px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--navy)}
-.job-title{font-family:var(--head);font-weight:500;font-size:1rem;line-height:1.35}
-.job-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--head);font-size:.86rem}
-.job-org{font-style:italic}
-.job-dates{color:var(--muted);white-space:nowrap}
-.job-body{color:var(--muted);font-size:.92rem;margin-top:4px}
-.job-body li{position:relative;padding-left:14px;margin-bottom:3px}
-.job-body li::before{content:"";position:absolute;left:2px;top:.6em;width:4px;height:4px;border-radius:50%;background:var(--navy)}
-
-.lead{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.lead-org{font-family:var(--head);font-weight:600;font-size:.95rem;line-height:1.3;margin-bottom:4px}
-.lead p{color:var(--muted);font-size:.88rem}
-
-@media screen and (max-width:760px){
-  .sheet{margin:0;grid-template-columns:1fr;grid-template-areas:"head" "side" "main";box-shadow:none}
-  .head{padding:32px 16px 20px}
-  .side{padding:28px 16px 8px}
-  .main{padding:28px 16px}
-  h1{font-size:2.1rem;white-space:normal}
-  .lead{grid-template-columns:1fr}
+@media screen and (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .stats-in{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .hero-in{padding:56px 16px 88px}
 }
 
+/* One A4 page for the PDF: every tab's content shown, interactive parts hidden */
 @page{size:A4;margin:0}
 @media print{
-  html{font-size:12.4px}
-  body{background:#fff;font-size:9.3pt;line-height:1.42}
-  .bullets li{margin-bottom:3px}
-  .sheet{margin:0;max-width:none;width:210mm;min-height:297mm;box-shadow:none;grid-template-columns:72mm 1fr;
-    -webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .side{padding:11mm 8mm 8mm}
-  .head{padding:11mm 11mm 1mm}
-  .main{padding:4mm 11mm 6mm}
-  .main section{margin-bottom:4.5mm}
-  .sec-head{margin-bottom:2.5mm}
-  .icon{width:28px;height:28px}
-  .icon svg{width:15px;height:15px}
-  .job{margin-bottom:2.6mm}
-  .subtitle{margin-top:2.5mm}
-  .side .block{margin-bottom:7mm}
-  h1{font-size:28pt}
-  .job,.edu,.lead>div{break-inside:avoid}
-  .downloads{display:none}
+  html{font-size:11px}
+  body{background:#fff;font-size:9pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .hero::after,.btns,.stats,.tabs,footer{display:none}
+  .hero-in{max-width:none;padding:7mm 13mm 5mm}
+  h1{font-size:28pt;margin:1mm 0 2mm}
+  .eyebrow{font-size:7.5pt}
+  .sub{font-size:12pt}
+  .wrap{max-width:none;padding:6mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
+  .about{font-size:9.3pt;margin-bottom:3mm;max-width:none}
+  h2{font-size:9.5pt;margin-bottom:2mm}
+  #p-edu,#p-vol{display:none!important}
+  .print-only,.panel-title{display:block}
+  .box{font-size:8.3pt;line-height:1.35}
+  .tl li{margin-bottom:1.6mm}
+  .dot{top:3.2mm;width:10px;height:10px;border-width:2.5px;left:-26px}
+  .card{padding:1.6mm 3mm;border-radius:8px;box-shadow:none!important}
+  .tl::before{top:3mm;bottom:3mm}
+  h3{font-size:10pt}
+  .date{margin:0.5mm 0 1mm;font-size:8.5pt}
+  .card li{margin-bottom:.6mm}
+  .box{padding:3.4mm 4mm;margin-bottom:3.5mm;border-radius:8px}
+  .box h2{font-size:8.5pt;margin-bottom:1.5mm}
+  .contact a{padding:.5mm 0}
+  .lang{padding:.9mm 0}
+  .skills li{padding:.7mm 0}
+  .vol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+  .vol-grid .mini{border:0;padding:0;font-size:8.3pt;line-height:1.35}
+  .vol-print{margin-top:3mm}
+  .card,.box{break-inside:avoid}
 }
 """
-
-ICONS = {
-    "user": '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/>',
-    "briefcase": '<path d="M9 4h6a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h6V6H9z"/>',
-    "cap": '<path d="M12 3 1 8.5l11 5.5 9-4.5V16h2V8.5z"/><path d="M5.5 12.6V16c0 1.9 2.9 3.5 6.5 3.5s6.5-1.6 6.5-3.5v-3.4L12 15.9z"/>',
-    "star": '<path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.6 6.8L12 17.3l-6.1 3.5 1.6-6.8L2.3 9.4l6.9-.6z"/>',
-    "chat": '<path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>',
-    "heart": '<path d="M12 21s-8.5-5.4-8.5-11.2A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 3.2C20.5 15.6 12 21 12 21z"/>',
-    "phone": '<path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/>',
-    "mail": '<path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2.4 0L12 11.2 19.6 6zM20 8.2l-8 5.4-8-5.4V18h16z"/>',
-    "linkedin": '<path d="M4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM2.2 8.5h3.6V21H2.2zM8.6 8.5h3.4v1.7c.5-.9 1.7-2 3.6-2 3.8 0 4.5 2.5 4.5 5.7V21h-3.6v-6.3c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H8.6z"/>',
-}
-
-
-def icon(name):
-    return f'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{ICONS[name]}</svg>'
 
 
 def e(s):
     return escape(s or "")
 
 
-def head(title, icon_name):
-    return f'<div class="sec-head"><span class="icon">{icon(icon_name)}</span><h2>{title}</h2></div>'
+def timeline(items):
+    return '<ol class="tl">' + "".join(f'<li><div class="dot"></div><div class="card">{x}</div></li>' for x in items) + "</ol>"
+
+
+def job(x):
+    kind = x.get("type") or "Full-time"
+    body = ("<ul>" + "".join(f"<li>{e(b)}</li>" for b in x["bullets"]) + "</ul>"
+            if x.get("bullets") else f'<p>{e(x.get("summary"))}</p>')
+    return (f'<div class="card-head"><div><h3>{e(x["role"])}</h3><div class="org">{e(x["organisation"])}</div></div>'
+            f'<span class="pill{"" if x.get("type") else " full"}">{e(kind)}</span></div>'
+            f'<div class="date">{e(x["dates"])}</div>{body}')
 
 
 def render(cv):
     c = cv["contact"]
-    linkedin = (f'<a href="{e(c["linkedin_url"])}">{e(c["linkedin_label"])}</a>'
-                if c.get("linkedin_url") else e(c["linkedin_label"]))
-    contact = "".join(f"<li>{icon(i)}<span>{t}</span></li>" for i, t in [
-        ("phone", f'<a href="tel:{e(c["phone"].replace(" ", ""))}">{e(c["phone"])}</a>'),
-        ("mail", f'<a href="mailto:{e(c["email"])}">{e(c["email"])}</a>'),
-        ("linkedin", linkedin),
-    ])
-
-    edu = "".join(
-        f'<div class="edu"><div class="edu-school">{e(x["institution"])}</div>'
-        f'<div class="edu-degree">{e(x["degree"])}</div><div class="muted edu-degree">{e(x["dates"])}</div>'
-        + (f'<div class="muted edu-note">{e(x["note"])}</div>' if x.get("note") else "") + "</div>"
+    years = [int(y) for x in cv["experience"] for y in re.findall(r"\b(?:19|20)\d{2}\b", x.get("dates", ""))]
+    since = f"roles since {min(years)}" if years else "roles"
+    work = timeline(job(x) for x in cv["experience"])
+    vol = timeline(f'<h3>{e(x["organisation"])}</h3><p>{e(x["summary"])}</p>' for x in cv["leadership"])
+    edu = timeline(
+        f'<h3>{e(x["degree"])}</h3><div class="org">{e(x["institution"])}</div><div class="date">{e(x["dates"])}</div>'
+        + (f'<p>{e(x["note"])}</p>' if x.get("note") else "")
         for x in cv["education"])
+    edu_print = "".join(
+        f'<div class="mini"><b>{e(x["degree"])}</b><span>{e(x["institution"])}</span><span class="mini-date">{e(x["dates"])}</span>'
+        + (f'<span class="mini-note">{e(x["note"])}</span>' if x.get("note") else "") + "</div>"
+        for x in cv["education"])
+    vol_print = "".join(f'<div class="mini"><b>{e(x["organisation"])}</b><span>{e(x["summary"])}</span></div>' for x in cv["leadership"])
     skills = "".join(f"<li>{e(s)}</li>" for s in cv["skills"])
-    langs = "".join(f'<li>{e(l["language"])}<span class="lang-level">{e(l["level"])}</span></li>' for l in cv["languages"])
+    langs = "".join(f'<div class="lang"><div class="lang-name">{e(l["language"])}</div><div class="lang-level">{e(l["level"])}</div></div>'
+                    for l in cv["languages"])
+    linkedin = (f'<a href="{e(c["linkedin_url"])}">LinkedIn: {e(c["linkedin_label"])}</a>' if c.get("linkedin_url") else "")
+    linkedin_btn = (f'<a class="btn" href="{e(c["linkedin_url"])}">LinkedIn</a>' if c.get("linkedin_url") else "")
+    degree_year = max(re.findall(r"\d{4}", cv["education"][0]["dates"]), default="")
 
-    def job(x):
-        dates = " · ".join(filter(None, [x.get("type"), x.get("dates")]))
-        body = ("<ul>" + "".join(f"<li>{e(b)}</li>" for b in x["bullets"]) + "</ul>"
-                if x.get("bullets") else f'<p>{e(x.get("summary"))}</p>')
-        return (f'<div class="job"><div class="job-title">{e(x["role"])}</div>'
-                f'<div class="job-meta"><span class="job-org">{e(x["organisation"])}</span><span class="job-dates">{e(dates)}</span></div>'
-                f'<div class="job-body">{body}</div></div>')
-
-    jobs = "".join(job(x) for x in cv["experience"])
-    lead = "".join(f'<div><div class="lead-org">{e(x["organisation"])}</div><p>{e(x["summary"])}</p></div>' for x in cv["leadership"])
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(cv["name"])} — CV</title>
-<meta name="description" content="{e(cv["name"])} — {e(cv["headline"])}, {e(cv["school"])}. {e(cv["current_role"])}.">
+<meta name="description" content="{e(cv["name"])} — {e(cv["current_role"])}. {e(cv["headline"])}, {e(cv["school"])}.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
 <style>{CSS}</style>
 </head>
 <body>
-<div class="sheet">
-<header class="head">
-<h1>{e(cv['name'])}</h1>
-<div class="subtitle">{e(cv["headline"])}</div>
-<div class="school">{e(cv["school"])}</div>
-<div class="subtitle role">{e(cv["current_role"])}</div>
-</header>
-<aside class="side">
-<div class="block">{head("Contact", "phone")}<ul class="contact">{contact}</ul>
-<div class="downloads"><a href="{PDF_NAME}">Download PDF</a><a href="{DOCX_NAME}">Word</a></div></div>
-<div class="block">{head("Education", "cap")}{edu}</div>
-<div class="block">{head("Skills", "star")}<ul class="bullets">{skills}</ul></div>
-<div class="block">{head("Languages", "chat")}<ul class="bullets">{langs}</ul></div>
-</aside>
-<main class="main">
-<section>{head("About Me", "user")}<p class="about">{e(cv["profile"])}</p></section>
-<section>{head("Experience", "briefcase")}<div class="timeline">{jobs}</div></section>
-<section>{head("Leadership & Volunteering", "heart")}<div class="lead">{lead}</div></section>
+<header class="hero"><div class="hero-in">
+  <div class="eyebrow">Curriculum Vitae</div>
+  <h1>{e(cv["name"])}</h1>
+  <p class="sub">{e(cv["current_role"])}</p>
+  <p class="sub2">{e(cv["headline"])} · {e(cv["school"])}</p>
+  <div class="btns"><a class="btn solid" href="{PDF_NAME}">Download PDF</a><a class="btn" href="{DOCX_NAME}">Word version</a>{linkedin_btn}</div>
+</div></header>
+<div class="stats"><div class="stats-in">
+  <div class="stat"><b>{len(cv["experience"])}</b><span>{since}</span></div>
+  <div class="stat"><b>{len(cv["languages"])}</b><span>languages</span></div>
+  <div class="stat"><b>MSc</b><span>RSM, expected {degree_year}</span></div>
+  <div class="stat"><b>{len(cv["leadership"])}</b><span>volunteer roles</span></div>
+</div></div>
+<div class="wrap">
+<main>
+  <h2>About me</h2><p class="about">{e(cv["profile"])}</p>
+  <div class="tabs" role="tablist" aria-label="Background">
+    <button class="tab" role="tab" id="tab-work" aria-selected="true" aria-controls="p-work">Experience</button>
+    <button class="tab" role="tab" id="tab-edu" aria-selected="false" aria-controls="p-edu">Education</button>
+    <button class="tab" role="tab" id="tab-vol" aria-selected="false" aria-controls="p-vol">Volunteering</button>
+  </div>
+  <div role="tabpanel" id="p-work" aria-labelledby="tab-work"><h2 class="panel-title">Experience</h2>{work}</div>
+  <section class="print-only vol-print"><h2>Leadership &amp; Volunteering</h2><div class="vol-grid">{vol_print}</div></section>
+  <div role="tabpanel" id="p-edu" aria-labelledby="tab-edu" hidden><h2 class="panel-title">Education</h2>{edu}</div>
+  <div role="tabpanel" id="p-vol" aria-labelledby="tab-vol" hidden><h2 class="panel-title">Leadership &amp; Volunteering</h2>{vol}</div>
 </main>
+<aside>
+  <div class="box contact"><h2>Contact</h2><a href="mailto:{e(c["email"])}">{e(c["email"])}</a><a href="tel:{e(c["phone"].replace(" ", ""))}">{e(c["phone"])}</a>{linkedin}</div>
+  <div class="box"><h2>Skills</h2><ul class="skills">{skills}</ul></div>
+  <div class="box"><h2>Languages</h2>{langs}</div>
+  <div class="box print-only"><h2>Education</h2>{edu_print}</div>
+</aside>
 </div>
+<footer>© 2026 {e(cv["name"])}</footer>
+<script>
+const tabs=[...document.querySelectorAll('[role=tab]')];
+tabs.forEach(t=>t.addEventListener('click',()=>tabs.forEach(x=>{{const on=x===t;x.setAttribute('aria-selected',on);document.getElementById(x.getAttribute('aria-controls')).hidden=!on;}})));
+</script>
 </body>
 </html>
 """
