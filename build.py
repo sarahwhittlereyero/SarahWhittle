@@ -60,7 +60,8 @@ ul{list-style:none}
 .head{grid-area:head;padding:56px 44px 8px}
 h1{font-family:var(--head);font-weight:800;font-size:2.7rem;white-space:nowrap;line-height:1.02;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
 .subtitle{font-family:var(--head);font-size:1.15rem;letter-spacing:.08em;margin-top:14px}
-.role{color:var(--muted);margin-top:2px}
+.school{color:var(--muted);font-size:.95rem;margin:1px 0 6px}
+.subtitle.role{margin-top:0}
 
 /* Main column */
 .main{grid-area:main;padding:24px 44px 40px}
@@ -174,7 +175,7 @@ def render(cv):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(cv["name"])} — CV</title>
-<meta name="description" content="{e(cv["name"])} — {e(cv["headline"])}. {e(cv["current_role"])}.">
+<meta name="description" content="{e(cv["name"])} — {e(cv["headline"])}, {e(cv["school"])}. {e(cv["current_role"])}.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
@@ -185,7 +186,8 @@ def render(cv):
 <header class="head">
 <h1>{e(cv['name'])}</h1>
 <div class="subtitle">{e(cv["headline"])}</div>
-<div class="role">{e(cv["current_role"])}</div>
+<div class="school">{e(cv["school"])}</div>
+<div class="subtitle role">{e(cv["current_role"])}</div>
 </header>
 <aside class="side">
 <div class="block">{head("Contact", "phone")}<ul class="contact">{contact}</ul>

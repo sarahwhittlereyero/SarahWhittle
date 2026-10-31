@@ -161,8 +161,9 @@ def write_docx(cv, path):
 
     # Main column
     p = para(main, first=True, line=1.0, after=6); run(p, cv["name"].upper(), 28, INK, bold=True)
-    p = para(main, after=1); run(p, cv["headline"], 11.5, INK, tracking=0.6)
-    p = para(main, after=0); run(p, cv["current_role"], 9.5, MUTED)
+    p = para(main, after=0); run(p, cv["headline"], 11.5, INK, tracking=0.6)
+    p = para(main, after=4); run(p, cv["school"], 9.5, MUTED)
+    p = para(main, after=0); run(p, cv["current_role"], 11.5, INK, tracking=0.6)
 
     main_heading(main, "About Me", before=16)
     p = para(main, after=0); p.alignment = 3  # justify
