@@ -19,7 +19,7 @@ FONTS = "https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family
 CSS = """
 /* Layout: banner with name and downloads, quick-facts strip, then a tabbed timeline beside a side column */
 :root{
-  --bg:#faf7f6; --surface:#ffffff; --ink:#2e2624; --muted:#6f6461; --line:#ece4e2;
+  --bg:#efedec; --surface:#ffffff; --ink:#2e2624; --muted:#6f6461; --line:#ece4e2;
   --hero:#330a09; --hero-2:#4a1a17; --on-hero:#ffffff; --accent:#8a2f24; --accent-soft:#f6e9e7;
   --display:'Nunito',system-ui,-apple-system,sans-serif; --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
 }
@@ -113,7 +113,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
 @page{size:A4;margin:0}
 @media print{
   html{font-size:11px}
-  body{background:#fff;font-size:9pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:var(--bg);font-size:9pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .hero::after,.btns,.stats,.tabs,footer{display:none}
   .hero-in{max-width:none;padding:7mm 13mm 5mm}
   h1{font-size:28pt;margin:1mm 0 2mm}
