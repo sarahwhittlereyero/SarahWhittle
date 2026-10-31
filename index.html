@@ -12,12 +12,12 @@
 /* Layout: banner with name and downloads, quick-facts strip, then a tabbed timeline beside a side column */
 :root{
   --bg:#f7f9fc; --surface:#ffffff; --ink:#26303d; --muted:#64707f; --line:#e3e8ef;
-  --hero:#2d5d8a; --hero-2:#3a6c9c; --on-hero:#ffffff; --accent:#2f74b5; --accent-soft:#e8f1fa;
+  --hero:#330a09; --hero-2:#4a1a17; --on-hero:#ffffff; --accent:#2f74b5; --accent-soft:#e8f1fa;
   --display:'Nunito',system-ui,-apple-system,sans-serif; --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
 }
 @media screen and (prefers-color-scheme:dark){:root{
   --bg:#111821; --surface:#19232f; --ink:#e7edf4; --muted:#a0abb9; --line:#2a3644;
-  --hero:#1f4366; --hero-2:#2a5279; --accent:#86b6ea; --accent-soft:#1d2f45; color-scheme:dark}}
+  --hero:#330a09; --hero-2:#4a1a17; --accent:#86b6ea; --accent-soft:#1d2f45; color-scheme:dark}}
 *{margin:0;padding:0;box-sizing:border-box}
 a{color:inherit}
 ul,ol{list-style:none}
@@ -30,14 +30,14 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16p
 .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;border:60px solid var(--hero-2);opacity:.7}
 .hero-in{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:72px 16px 96px}
 .eyebrow{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
-h1{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(2.6rem,8vw,4.8rem);line-height:1.05;letter-spacing:-.01em;margin:8px 0 18px}
+h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(2.6rem,8vw,4.8rem);line-height:1.05;letter-spacing:-.01em;margin:8px 0 18px}
 .sub{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,2.4vw,1.35rem)}
 .sub2{opacity:.8;margin-top:2px}
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .btn{font-family:var(--display);font-weight:700;font-size:.95rem;padding:10px 20px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.5);transition:transform .15s,background .2s}
 .btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
 .btn.solid{background:#fff;color:var(--hero);border-color:#fff}
-.btn.solid:hover{background:#eef4fb}
+.btn.solid:hover{background:#f6eceb}
 
 /* Quick facts */
 .stats{max-width:1040px;margin:-48px auto 0;padding:0 16px;position:relative;z-index:2}

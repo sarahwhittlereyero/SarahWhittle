@@ -8,9 +8,10 @@ from docx.oxml.ns import qn
 from docx.shared import Emu, Mm, Pt, RGBColor
 
 # Same palette as the website. Calibri stands in for Nunito, which most computers don't have.
-HERO = "2D5D8A"
+HERO = "330A09"  # mahogany banner
 ON_HERO = "FFFFFF"
-HERO_SOFT = "D5E3F1"
+HERO_SOFT = "E6D3D1"
+TIMELINE = "D5E3F1"
 ACCENT = "2F74B5"
 ACCENT_SOFT = "E8F1FA"
 SIDE_BG = "F3F7FB"
@@ -98,7 +99,7 @@ def bottom_rule(p, color=LINE):
 def timeline(p, indent=Mm(5)):
     """A left rule on consecutive paragraphs draws the timeline line, as on the website."""
     pbdr = _el("w:pBdr")
-    pbdr.append(_el("w:left", val="single", sz=12, space=10, color=HERO_SOFT))
+    pbdr.append(_el("w:left", val="single", sz=12, space=10, color=TIMELINE))
     p._p.get_or_add_pPr().append(pbdr)
     p.paragraph_format.left_indent = indent
 
@@ -142,7 +143,7 @@ def write_docx(cv, path):
     shade(cell, HERO)
     cell_margins(cell, Mm(9), PAD, Mm(7), PAD)
     p = para(cell, first=True, after=2); run(p, "CURRICULUM VITAE", 7.5, HERO_SOFT, bold=True, tracking=2.4)
-    p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, bold=True, font="Georgia")
+    p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, font="Georgia")
     p = para(cell, after=1); run(p, cv["current_role"], 13, ON_HERO, bold=True)
     p = para(cell); run(p, f'{cv["headline"]} · {cv["school"]}', 9.5, HERO_SOFT)
 
