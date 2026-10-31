@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 """Build Sarah Whittle's CV from cv.json.
 
-    python3 build.py          # writes index.html (the website)
+    .venv/bin/python build.py   # writes index.html, Sarah-Whittle-CV.pdf and Sarah-Whittle-CV.docx
 """
 import json
+import subprocess
 from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).parent
+PDF_NAME = "Sarah-Whittle-CV.pdf"
+DOCX_NAME = "Sarah-Whittle-CV.docx"
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 FONTS = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
 
@@ -41,6 +45,9 @@ ul{list-style:none}
 
 .contact li{display:flex;align-items:center;gap:12px;margin-bottom:8px;word-break:break-word}
 .contact svg{width:16px;height:16px;flex-shrink:0;color:var(--side-text)}
+.downloads{display:flex;gap:8px;margin-top:14px}
+.downloads a{border:1px solid var(--side-muted);border-radius:999px;padding:3px 12px;font-family:var(--head);font-size:.8rem}
+.downloads a:hover{background:var(--side-text);color:var(--navy);text-decoration:none}
 .edu{margin-bottom:14px}
 .edu-school{font-weight:700}
 .edu-degree{font-size:.93em}
@@ -51,7 +58,7 @@ ul{list-style:none}
 
 /* Header */
 .head{grid-area:head;padding:56px 44px 8px}
-h1{font-family:var(--head);font-weight:800;font-size:3rem;line-height:1.02;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
+h1{font-family:var(--head);font-weight:800;font-size:2.7rem;white-space:nowrap;line-height:1.02;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
 .subtitle{font-family:var(--head);font-size:1.15rem;letter-spacing:.08em;margin-top:14px}
 .role{color:var(--muted);margin-top:2px}
 
@@ -81,7 +88,7 @@ h1{font-family:var(--head);font-weight:800;font-size:3rem;line-height:1.02;text-
   .head{padding:32px 16px 20px}
   .side{padding:28px 16px 8px}
   .main{padding:28px 16px}
-  h1{font-size:2.3rem}
+  h1{font-size:2.1rem;white-space:normal}
   .lead{grid-template-columns:1fr}
 }
 
@@ -104,6 +111,7 @@ h1{font-family:var(--head);font-weight:800;font-size:3rem;line-height:1.02;text-
   .side .block{margin-bottom:7mm}
   h1{font-size:28pt}
   .job,.edu,.lead>div{break-inside:avoid}
+  .downloads{display:none}
 }
 """
 
@@ -160,8 +168,6 @@ def render(cv):
 
     jobs = "".join(job(x) for x in cv["experience"])
     lead = "".join(f'<div><div class="lead-org">{e(x["organisation"])}</div><p>{e(x["summary"])}</p></div>' for x in cv["leadership"])
-    first, _, last = cv["name"].partition(" ")
-
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,12 +183,13 @@ def render(cv):
 <body>
 <div class="sheet">
 <header class="head">
-<h1>{e(first)}<br>{e(last)}</h1>
+<h1>{e(cv['name'])}</h1>
 <div class="subtitle">{e(cv["headline"])}</div>
 <div class="role">{e(cv["current_role"])}</div>
 </header>
 <aside class="side">
-<div class="block">{head("Contact", "phone")}<ul class="contact">{contact}</ul></div>
+<div class="block">{head("Contact", "phone")}<ul class="contact">{contact}</ul>
+<div class="downloads"><a href="{PDF_NAME}">Download PDF</a><a href="{DOCX_NAME}">Word</a></div></div>
 <div class="block">{head("Education", "cap")}{edu}</div>
 <div class="block">{head("Skills", "star")}<ul class="bullets">{skills}</ul></div>
 <div class="block">{head("Languages", "chat")}<ul class="bullets">{langs}</ul></div>
@@ -198,10 +205,34 @@ def render(cv):
 """
 
 
+def build_pdf():
+    """Print index.html to PDF with headless Chrome (uses the page's print styles)."""
+    if not Path(CHROME).exists():
+        print(f"skipped {PDF_NAME}: Google Chrome not found")
+        return
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
+                    "--virtual-time-budget=8000", f"--print-to-pdf={ROOT / PDF_NAME}",
+                    (ROOT / "index.html").as_uri()],
+                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print(PDF_NAME)
+
+
+def build_docx(cv):
+    try:
+        from cv_docx import write_docx
+    except ImportError:
+        print(f"skipped {DOCX_NAME}: python-docx not installed (see README)")
+        return
+    write_docx(cv, ROOT / DOCX_NAME)
+    print(DOCX_NAME)
+
+
 def main():
     cv = json.loads((ROOT / "cv.json").read_text(encoding="utf-8"))
     (ROOT / "index.html").write_text(render(cv), encoding="utf-8")
     print("index.html")
+    build_pdf()
+    build_docx(cv)
 
 
 if __name__ == "__main__":
