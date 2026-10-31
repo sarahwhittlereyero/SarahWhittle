@@ -13,3 +13,11 @@ To enable it:
 4. Click **Save**
 
 Your site will be live within a minute or two.
+
+## Updating the CV
+
+All CV content lives in `cv.json`. After editing it, regenerate the page:
+
+```bash
+python3 build.py
+```

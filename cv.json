@@ -1,0 +1,64 @@
+{
+  "name": "Sarah Whittle",
+  "headline": "MSc Global Business and Sustainability, Rotterdam School of Management",
+  "current_role": "Human Rights Intern at HEINEKEN Global",
+  "contact": {
+    "phone": "+34 644 718 505",
+    "email": "Sarah.whittle.reyero@gmail.com",
+    "linkedin_label": "Sarah Whittle Alvarez",
+    "linkedin_url": "https://www.linkedin.com/in/sarah-whittle-alvarez-4248aa29b"
+  },
+  "photo": "",
+  "profile": "Currently pursuing a Master’s in Global Business and Sustainability at RSM alongside an internship at HEINEKEN Global, gaining experience in stakeholder management, research, and international collaboration. Curious, adaptable, and people-oriented, I enjoy working with diverse teams, exploring creative ideas, and taking on new challenges.",
+  "experience": [
+    {
+      "organisation": "HEINEKEN Global",
+      "role": "Human Rights Intern",
+      "dates": "Sep 2026 – Feb 2027",
+      "bullets": [
+        "Collaborating with global Operating Companies (OpCos) and senior stakeholders to strengthen human rights engagement and implementation across the organisation.",
+        "Analysing supplier sustainability audits, monitoring human rights risks and supporting remediation efforts across the global supply chain.",
+        "Researching EU human rights legislation, including the CSDDD and Forced Labour Regulation, and conducting peer benchmarking to support corporate sustainability practices.",
+        "Supporting DEI initiatives and developing internal communications, presentations and engagement projects to promote human rights awareness across global operations."
+      ]
+    },
+    {"organisation": "Albert Heijn", "role": "Senior Store Employee", "type": "Part-time", "dates": "Sep 2025 – Sep 2026", "summary": "Retail operations, teamwork and customer interaction."},
+    {"organisation": "Echo Recordings", "role": "Community Management & Events Intern", "type": "Part-time", "dates": "Jul 2025 – Jan 2026", "summary": "Community engagement, communications and event organisation."},
+    {"organisation": "Global Risk Advice", "role": "Intern", "type": "Part-time", "dates": "Mar 2024 – Jul 2024", "summary": "Research and organisational support."},
+    {"organisation": "University of Groningen", "role": "Teaching Assistant", "type": "Part-time", "dates": "Nov 2023 – Feb 2024", "summary": "Academic support and student engagement."}
+  ],
+  "education": [
+    {
+      "degree": "MSc Global Business and Sustainability",
+      "institution": "Rotterdam School of Management (RSM), Erasmus University Rotterdam",
+      "dates": "2025 – expected 2027",
+      "note": ""
+    },
+    {
+      "degree": "BSc Global Responsibility and Leadership",
+      "institution": "Campus Fryslân, University of Groningen",
+      "dates": "Graduated 2025",
+      "note": "Focus on Politics, Philosophy and Economics (PPE). Exchange semester at Korea University, South Korea."
+    }
+  ],
+  "skills": [
+    "Human Rights Due Diligence & Risk Management",
+    "Human Rights Legislation & Regulatory Compliance",
+    "Social Sustainability & Supply Chain Auditing",
+    "Global Stakeholder Engagement & Cross-Functional Collaboration",
+    "Research, Data Analysis & Benchmarking",
+    "Strategic Communications & Employee Engagement",
+    "Diversity, Equity & Inclusion (DEI)",
+    "Project Coordination & Implementation"
+  ],
+  "languages": [
+    {"language": "Spanish", "level": "Native"},
+    {"language": "English", "level": "Fluent; Cambridge Certificate of Proficiency"},
+    {"language": "French", "level": "DELF B2"}
+  ],
+  "leadership": [
+    {"organisation": "Stichting Mano", "summary": "Organised a LinkedIn and CV workshop supporting the employability of individuals with migrant backgrounds."},
+    {"organisation": "Student Sports Committee", "summary": "Chaired the committee, contributing to student engagement and community activities."},
+    {"organisation": "Amnesty International", "summary": "Participated in student-led human rights initiatives."}
+  ]
+}
