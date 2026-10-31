@@ -67,13 +67,13 @@ def para(cell, first=False, after=0, before=0, line=1.12):
     return p
 
 
-def run(p, text, size=9.5, color=INK, bold=False, italic=False, tracking=None, fill=None):
+def run(p, text, size=9.5, color=INK, bold=False, italic=False, tracking=None, fill=None, font=FONT):
     r = p.add_run(text)
     f = r.font
-    f.name, f.size, f.bold, f.italic = FONT, Pt(size), bold, italic
+    f.name, f.size, f.bold, f.italic = font, Pt(size), bold, italic
     f.color.rgb = RGBColor.from_string(color)
     rpr = r._element.get_or_add_rPr()
-    rpr.get_or_add_rFonts().set(qn("w:eastAsia"), FONT)
+    rpr.get_or_add_rFonts().set(qn("w:eastAsia"), font)
     if tracking:
         rpr.append(_el("w:spacing", val=int(tracking * 20)))
     if fill:
@@ -142,7 +142,7 @@ def write_docx(cv, path):
     shade(cell, HERO)
     cell_margins(cell, Mm(9), PAD, Mm(7), PAD)
     p = para(cell, first=True, after=2); run(p, "CURRICULUM VITAE", 7.5, HERO_SOFT, bold=True, tracking=2.4)
-    p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, bold=True)
+    p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, bold=True, font="Georgia")
     p = para(cell, after=1); run(p, cv["current_role"], 13, ON_HERO, bold=True)
     p = para(cell); run(p, f'{cv["headline"]} · {cv["school"]}', 9.5, HERO_SOFT)
 
