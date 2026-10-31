@@ -11,13 +11,13 @@
 <style>
 /* Layout: banner with name and downloads, quick-facts strip, then a tabbed timeline beside a side column */
 :root{
-  --bg:#f7f9fc; --surface:#ffffff; --ink:#26303d; --muted:#64707f; --line:#e3e8ef;
-  --hero:#330a09; --hero-2:#4a1a17; --on-hero:#ffffff; --accent:#2f74b5; --accent-soft:#e8f1fa;
+  --bg:#faf7f6; --surface:#ffffff; --ink:#2e2624; --muted:#6f6461; --line:#ece4e2;
+  --hero:#330a09; --hero-2:#4a1a17; --on-hero:#ffffff; --accent:#8a2f24; --accent-soft:#f6e9e7;
   --display:'Nunito',system-ui,-apple-system,sans-serif; --body:'Nunito Sans',system-ui,-apple-system,sans-serif;
 }
 @media screen and (prefers-color-scheme:dark){:root{
-  --bg:#111821; --surface:#19232f; --ink:#e7edf4; --muted:#a0abb9; --line:#2a3644;
-  --hero:#330a09; --hero-2:#4a1a17; --accent:#86b6ea; --accent-soft:#1d2f45; color-scheme:dark}}
+  --bg:#171211; --surface:#221a19; --ink:#f1e9e7; --muted:#b4a6a3; --line:#3a2d2b;
+  --hero:#330a09; --hero-2:#4a1a17; --accent:#e3a59c; --accent-soft:#3a1d1b; color-scheme:dark}}
 *{margin:0;padding:0;box-sizing:border-box}
 a{color:inherit}
 ul,ol{list-style:none}
@@ -41,7 +41,7 @@ h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(2
 
 /* Quick facts */
 .stats{max-width:1040px;margin:-48px auto 0;padding:0 16px;position:relative;z-index:2}
-.stats-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 10px 30px rgba(45,93,138,.10)}
+.stats-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 10px 30px rgba(51,10,9,.08)}
 .stat{padding:20px 22px;border-right:1px solid var(--line)}
 .stat:last-child{border:0}
 .stat b{display:block;font-family:var(--display);font-weight:800;font-size:1.7rem;color:var(--accent);line-height:1.1}
@@ -68,7 +68,7 @@ h2{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.
 .tl li{position:relative;margin-bottom:18px}
 .dot{position:absolute;left:-28px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;transition:border-color .2s,box-shadow .2s}
-.card:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(45,93,138,.10)}
+.card:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(51,10,9,.08)}
 .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 h3{font-family:var(--display);font-weight:800;font-size:1.06rem;line-height:1.35}
 .org{color:var(--muted);font-style:italic}
