@@ -141,7 +141,7 @@ def write_docx(cv, path):
     fixed_layout(banner, (PAGE_W,))
     cell = banner.rows[0].cells[0]
     shade(cell, HERO)
-    cell_margins(cell, Mm(9), PAD, Mm(7), PAD)
+    cell_margins(cell, Mm(8), PAD, Mm(6), PAD)
     p = para(cell, first=True, after=2); run(p, "CURRICULUM VITAE", 7.5, HERO_SOFT, bold=True, tracking=2.4)
     p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, font="Georgia")
     p = para(cell, after=1); run(p, cv["current_role"], 13, ON_HERO, bold=True)
@@ -153,33 +153,33 @@ def write_docx(cv, path):
     no_borders(body)
     fixed_layout(body, (MAIN_W, SIDE_W))
     row = body.rows[0]
-    row.height, row.height_rule = Mm(236), WD_ROW_HEIGHT_RULE.AT_LEAST
+    row.height, row.height_rule = Mm(230), WD_ROW_HEIGHT_RULE.AT_LEAST
     main, side = row.cells
-    cell_margins(main, Mm(7), PAD, Mm(6), Mm(5))
+    cell_margins(main, Mm(6), PAD, Mm(4), Mm(5))
     cell_margins(side, Mm(7), Mm(6), Mm(6), Mm(9))
     shade(side, SIDE_BG)
 
     heading(main, "About me", first=True)
-    p = para(main, after=0, line=1.2); run(p, cv["profile"], 9.5, INK)
+    p = para(main, after=0, line=1.15); run(p, cv["profile"], 9, INK)
 
-    heading(main, "Experience", before=12)
+    heading(main, "Experience", before=9)
     for i, x in enumerate(cv["experience"]):
-        p = para(main, before=0 if i == 0 else 7); timeline(p)
+        p = para(main, before=0 if i == 0 else 5); timeline(p)
         p.paragraph_format.tab_stops.add_tab_stop(MAIN_TEXT_W, WD_TAB_ALIGNMENT.RIGHT)
         run(p, x["role"], 10.5, INK, bold=True)
         kind = (x.get("type") or "Full-time").upper()
         run(p, "\t")
         full = not x.get("type")
         run(p, f" {kind} ", 7, ON_HERO if full else ACCENT, bold=True, tracking=0.6, fill=ACCENT if full else ACCENT_SOFT)
-        p = para(main); timeline(p); run(p, x["organisation"], 9, MUTED, italic=True)
-        p = para(main, after=2); timeline(p); run(p, x["dates"], 8.5, ACCENT, bold=True)
+        p = para(main, after=2); timeline(p)
+        run(p, x["organisation"], 9, MUTED, italic=True); run(p, " · " + x["dates"], 8.5, ACCENT, bold=True)
         if x.get("bullets"):
             for b in x["bullets"]:
-                timeline(bullet(main, b, 9, MUTED, indent=Mm(8.5)), indent=Mm(8.5))
+                timeline(bullet(main, b, 8.5, MUTED, indent=Mm(8.5), after=0.5), indent=Mm(8.5))
         else:
-            p = para(main); timeline(p); run(p, x.get("summary"), 9, MUTED)
+            p = para(main); timeline(p); run(p, x.get("summary"), 8.5, MUTED)
 
-    heading(main, "Leadership & Volunteering", before=12)
+    heading(main, "Leadership & Volunteering", before=9)
     n = len(cv["leadership"])
     vol = main.add_table(rows=1, cols=n)
     no_borders(vol)

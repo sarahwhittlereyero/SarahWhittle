@@ -112,25 +112,28 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
 /* One A4 page for the PDF: every tab's content shown, interactive parts hidden */
 @page{size:A4;margin:0}
 @media print{
-  html{font-size:11px}
-  body{background:var(--bg);font-size:9pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html{font-size:10.6px}
+  body{background:var(--bg);font-size:8.7pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .hero::after,.btns,.stats,.tabs,footer{display:none}
-  .hero-in{max-width:none;padding:7mm 13mm 5mm}
+  .hero-in{max-width:none;padding:6mm 13mm 4.5mm}
   h1{font-size:28pt;margin:1mm 0 2mm}
   .eyebrow{font-size:7.5pt}
   .sub{font-size:12pt}
   .wrap{max-width:none;padding:6mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
-  .about{font-size:9.3pt;margin-bottom:3mm;max-width:none}
+  .about{font-size:9pt;margin-bottom:2.5mm;max-width:none}
   h2{font-size:9.5pt;margin-bottom:2mm}
   #p-edu,#p-vol{display:none!important}
   .print-only,.panel-title{display:block}
   .box{font-size:8.3pt;line-height:1.35}
-  .tl li{margin-bottom:1.6mm}
+  .tl li{margin-bottom:1.3mm}
   .dot{top:3.2mm;width:10px;height:10px;border-width:2.5px;left:-26px}
   .card{padding:1.6mm 3mm;border-radius:8px;box-shadow:none!important}
   .tl::before{top:3mm;bottom:3mm}
   h3{font-size:10pt}
   .date{margin:0.5mm 0 1mm;font-size:8.5pt}
+  .card-head .org{display:inline}
+  .card-head .org::after{content:" · " attr(data-dates);font-style:normal;font-weight:700;color:var(--accent)}
+  .card > .date{display:none}
   .card li{margin-bottom:.6mm}
   .box{padding:3.4mm 4mm;margin-bottom:3.5mm;border-radius:8px}
   .box h2{font-size:8.5pt;margin-bottom:1.5mm}
@@ -157,7 +160,7 @@ def job(x):
     kind = x.get("type") or "Full-time"
     body = ("<ul>" + "".join(f"<li>{e(b)}</li>" for b in x["bullets"]) + "</ul>"
             if x.get("bullets") else f'<p>{e(x.get("summary"))}</p>')
-    return (f'<div class="card-head"><div><h3>{e(x["role"])}</h3><div class="org">{e(x["organisation"])}</div></div>'
+    return (f'<div class="card-head"><div><h3>{e(x["role"])}</h3><div class="org" data-dates="{e(x["dates"])}">{e(x["organisation"])}</div></div>'
             f'<span class="pill{"" if x.get("type") else " full"}">{e(kind)}</span></div>'
             f'<div class="date">{e(x["dates"])}</div>{body}')
 
