@@ -119,15 +119,15 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
   h1{font-size:28pt;margin:1mm 0 2mm}
   .eyebrow{font-size:7.5pt}
   .sub{font-size:12pt}
-  .wrap{max-width:none;padding:6mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
+  .wrap{max-width:none;padding:5mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
   .about{font-size:9pt;margin-bottom:2.5mm;max-width:none}
   h2{font-size:9.5pt;margin-bottom:2mm}
   #p-edu,#p-vol{display:none!important}
   .print-only,.panel-title{display:block}
   .box{font-size:8.3pt;line-height:1.35}
-  .tl li{margin-bottom:1.3mm}
+  .tl li{margin-bottom:1mm}
   .dot{top:3.2mm;width:10px;height:10px;border-width:2.5px;left:-26px}
-  .card{padding:1.6mm 3mm;border-radius:8px;box-shadow:none!important}
+  .card{padding:1.3mm 3mm;border-radius:8px;box-shadow:none!important}
   .tl::before{top:3mm;bottom:3mm}
   h3{font-size:10pt}
   .date{margin:0.5mm 0 1mm;font-size:8.5pt}
@@ -142,7 +142,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
   .skills li{padding:.7mm 0}
   .vol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
   .vol-grid .mini{border:0;padding:0;font-size:8.3pt;line-height:1.35}
-  .vol-print{margin-top:3mm}
+  .vol-print{margin-top:2mm}
   .card,.box{break-inside:avoid}
 }
 """
