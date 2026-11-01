@@ -29,10 +29,7 @@
       "organisation": "Kensington School, Pozuelo de Alarcón (Madrid)",
       "role": "Summer Camp Monitor",
       "dates": "15 Jul 2024 – 28 Jul 2024",
-      "bullets": [
-        "Supervised and cared for children aged 2 to 14 at an English-language summer camp.",
-        "Organised and led educational, recreational and sports activities conducted entirely in English, daily from 8:30 AM to 5:00 PM."
-      ]
+      "summary": "Childcare and English-language educational, recreational and sports activities."
     },
     {"organisation": "Global Risk Advice", "role": "Intern", "type": "Part-time", "dates": "Mar 2024 – Jul 2024", "summary": "Research and organisational support."},
     {"organisation": "University of Groningen", "role": "Teaching Assistant", "type": "Part-time", "dates": "Nov 2023 – Feb 2024", "summary": "Academic support and student engagement."}
