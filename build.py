@@ -135,7 +135,8 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
   .card-head .org::after{content:" · " attr(data-dates);font-style:normal;font-weight:700;color:var(--accent)}
   .card > .date{display:none}
   .card li{margin-bottom:.6mm}
-  .box{padding:3.4mm 4mm;margin-bottom:3.5mm;border-radius:8px}
+  .box{padding:3mm 4mm;margin-bottom:2.5mm;border-radius:8px}
+  aside .box:last-child{margin-bottom:0}
   .box h2{font-size:8.5pt;margin-bottom:1.5mm}
   .contact a{padding:.5mm 0}
   .lang{padding:.9mm 0}
@@ -172,11 +173,13 @@ def render(cv):
     work = timeline(job(x) for x in cv["experience"])
     vol = timeline(f'<h3>{e(x["organisation"])}</h3><p>{e(x["summary"])}</p>' for x in cv["leadership"])
     edu = timeline(
-        f'<h3>{e(x["degree"])}</h3><div class="org">{e(x["institution"])}</div><div class="date">{e(x["dates"])}</div>'
+        f'<h3>{e(x["degree"])}</h3><div class="org">{e(x["institution"])}</div>'
+        + (f'<div class="date">{e(x["dates"])}</div>' if x.get("dates") else "")
         + (f'<p>{e(x["note"])}</p>' if x.get("note") else "")
         for x in cv["education"])
     edu_print = "".join(
-        f'<div class="mini"><b>{e(x["degree"])}</b><span>{e(x["institution"])}</span><span class="mini-date">{e(x["dates"])}</span>'
+        f'<div class="mini"><b>{e(x["degree"])}</b><span>{e(x["institution"])}</span>'
+        + (f'<span class="mini-date">{e(x["dates"])}</span>' if x.get("dates") else "")
         + (f'<span class="mini-note">{e(x["note"])}</span>' if x.get("note") else "") + "</div>"
         for x in cv["education"])
     vol_print = "".join(f'<div class="mini"><b>{e(x["organisation"])}</b><span>{e(x["summary"])}</span></div>' for x in cv["leadership"])

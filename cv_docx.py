@@ -217,7 +217,8 @@ def write_docx(cv, path):
     for i, x in enumerate(cv["education"]):
         p = para(side, before=0 if i == 0 else 3); run(p, x["degree"], 9, INK, bold=True)
         p = para(side); run(p, x["institution"], 8.5, MUTED)
-        p = para(side, after=0 if x.get("note") else 3); run(p, x["dates"], 8.5, ACCENT, bold=True)
+        if x.get("dates"):
+            p = para(side, after=0 if x.get("note") else 3); run(p, x["dates"], 8.5, ACCENT, bold=True)
         if x.get("note"):
             p = para(side, after=3); run(p, x["note"], 8, MUTED)
         if i < len(cv["education"]) - 1:
