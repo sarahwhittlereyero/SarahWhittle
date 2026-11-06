@@ -142,8 +142,7 @@ def write_docx(cv, path):
     cell = banner.rows[0].cells[0]
     shade(cell, HERO)
     cell_margins(cell, Mm(8), PAD, Mm(6), PAD)
-    p = para(cell, first=True, after=2); run(p, "CURRICULUM VITAE", 7.5, HERO_SOFT, bold=True, tracking=2.4)
-    p = para(cell, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, font="Georgia")
+    p = para(cell, first=True, after=3, line=1.0); run(p, cv["name"], 30, ON_HERO, font="Georgia")
     p = para(cell, after=1); run(p, cv["current_role"], 13, ON_HERO, bold=True)
     p = para(cell); run(p, f'{cv["headline"]} · {cv["school"]}', 9.5, HERO_SOFT)
 

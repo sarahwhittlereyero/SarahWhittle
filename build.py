@@ -114,10 +114,9 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px
 @media print{
   html{font-size:10.6px}
   body{background:var(--bg);font-size:8.7pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .hero::after,.btns,.stats,.tabs,footer{display:none}
+  .hero::after,.eyebrow,.btns,.stats,.tabs,footer{display:none}
   .hero-in{max-width:none;padding:6mm 13mm 4.5mm}
   h1{font-size:28pt;margin:1mm 0 2mm}
-  .eyebrow{font-size:7.5pt}
   .sub{font-size:12pt}
   .wrap{max-width:none;padding:5mm 13mm 0;grid-template-columns:minmax(0,1fr) 60mm;gap:8mm}
   .about{font-size:9pt;margin-bottom:2.5mm;max-width:none}
